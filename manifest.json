@@ -1,0 +1,17 @@
+{
+    "manifest_version": 3,
+    "name": "MataSolver",
+    "description": "Checking matamath solutions",
+    "version": "1.0",
+    "permissions": [
+        "activeTab",
+        "cookies"
+    ],
+    "host_permissions": [
+        "*://ai.matamath.net/*"
+    ],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": "icon.png"
+    }
+}
