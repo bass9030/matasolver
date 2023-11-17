@@ -30,24 +30,61 @@ async function onQuestionClick(value) {
     let solution = await getSolution(questionId);
 
     $('div.solution').html(getSolutionElement(solution.evalDetailDto))
-    MathJax.Hub.Queue(["Typeset",MathJax.Hub,$('div.solution > span.title')[0]]);
-    MathJax.Hub.Queue(["Typeset",MathJax.Hub,$('div.solution > span.exp')[0]]);
+    await MathJax.typesetPromise(['span.title']);
+    await MathJax.typesetPromise(['span.exp']);
 }
 
 function getSolutionElement(solutionInfo) {
     console.log(solutionInfo);
     let expText = solutionInfo.expText.replaceAll('\n', '<br>');
-    let regex = /#[\[\(]([a-zA-Z0-9]+)\|([^:]+)::([^(\]\)]{0,})[\]\)]#/g
+    let title = solutionInfo.text.replaceAll('\n', '<br>');
+    let regex = /#[\(\[]([^\|]+)\|([^\:]+)::([^#]*)[\)\]]#/g
     let matchs = expText.match(regex);
     if(!!matchs) {
         for(match of matchs) {
+            console.log('matchText', match);
             let displayText = match.split('::')[1].slice(0, -2);
             console.log(match, '|', displayText);
             expText = expText.replace(match, displayText);
         }
     }
+    matchs = title.match(regex);
+    if(!!matchs) {
+        for(match of matchs) {
+            console.log('matchText', match);
+            let displayText = match.split('::')[1].slice(0, -2);
+            console.log(match, '|', displayText);
+            title = title.replace(match, displayText);
+        }
+    }
 
-    return `<span class="h2"><strong>${String(solutionInfo.questionNo).padStart(2, '0')} </strong></span><span class="title">${solutionInfo.text}</span><br><br><span class="exp">${expText}</span>`
+    let imgregex = /#\[img_[0-9]+_[0-9]+\]#/g
+    let imgMatchs = expText.match(imgregex);
+    if(!!imgMatchs) {
+        for(match of imgMatchs) {
+            let imgNum = match.split('_')[2].slice(0, -2);
+            console.log('imgNum', imgNum);
+            let imgIdx = solutionInfo.questionResourceList.findIndex((e) => {
+                return e.imgNo === parseInt(imgNum);
+            })
+            let imgInfo = solutionInfo.questionResourceList[imgIdx];
+            expText = expText.replace(match, `<img src="https://ai.matamath.net/${imgInfo.imgLink}" style="width: ${imgInfo.imgWidth}; padding: ${imgInfo.imgPadding};"/>`);
+        }
+    }
+    imgMatchs = title.match(imgregex);
+    if(!!imgMatchs) {
+        for(match of imgMatchs) {
+            let imgNum = match.split('_')[2].slice(0, -2);
+            console.log('imgNum', imgNum);
+            let imgIdx = solutionInfo.questionResourceList.findIndex((e) => {
+                return e.imgNo === parseInt(imgNum);
+            })
+            let imgInfo = solutionInfo.questionResourceList[imgIdx];
+            title = title.replace(match, `<img src="https://ai.matamath.net/${imgInfo.imgLink}" style="width: ${imgInfo.imgWidth}; padding: ${imgInfo.imgPadding};"/>`);
+        }
+    }
+
+    return `<span class="h2"><strong>${String(solutionInfo.questionNo).padStart(2, '0')} </strong></span><span class="title">${title}</span><hr><span class="exp">${expText}</span>`
 }
 
 //<button type="button" class="btn btn-primary">Button</button>
