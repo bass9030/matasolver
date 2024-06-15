@@ -1,0 +1,22 @@
+포물선 #[wH6006|포물선의 방정식::$y^2=8x=4\cdot 2\cdot x$]#의 접점 $(a,\,b)$에서의 #[wH6029|포물선의 접선의 방정식-곡선 밖의 점::접선의 방정식]#은 \[ by = 2\cdot 2 \cdot (x+a) \quad \unicode{x27AD} \quad #(wM5068|이차함수를 표준형으로 바꾸기::y=\dfrac{4}{b} x + \dfrac{4a}{b})# \]
+이고 이 직선이 점 ${\rm P}(-3,\,1)$을 지나므로 
+\[ #(wM1118|그래프 위의 점::1=-\dfrac{12}{b} + \dfrac{4a}{b})# \quad \unicode{x27AD} \quad 4a-12=b\quad\cdots ㉠\]
+이다. 또한, 점 $(a,\,b)$는 포물선 $y^2=8x$ 위의 점이므로 
+\[ b^2=8a \quad \unicode{x27AD} \quad a=\dfrac{1}{8}b^2\quad\cdots ㉡\]
+이다. ㉡을 ㉠에 대입하면 
+\begin{align*}
+& 4\times\dfrac{1}{8}b^2-12=b\\[3pt]
+& b^2-2b -24=0 \\[3pt]
+\unicode{x27AD} \quad & (b+4)(b-6)=0
+\end{align*}
+이다. 따라서 #[wM5048|이차방정식 풀기::$b=-4$ 또는 $b=6$]#이므로 두 점 $\rm A$, $\rm B$의 $y$좌표는 각각 $-4$, $6$이고, $x$좌표는 각각 $2$, $\dfrac{9}{2}$이다. 즉, ${\rm A}(2,\,-4)$, ${\rm B}\left(\dfrac{9}{2},\,6\right)$이다. 이때 포물선 $y^2=8x$ 위의 점 $\rm A$에서의 접선 $l$의 방정식은 $y=-x-2$, 즉 $x+y+2=0$이므로 점 ${\rm B}\left(\dfrac{9}{2},\,6\right)$과 접선 $l$ 사이의 거리는 
+\[ #(wH1128|점과 직선 사이의 거리(고)::\dfrac{\left |\dfrac{9}{2}+6+2\right |}{\sqrt{1^2+1^2}})#=\dfrac{25\sqrt 2}{4}\]
+이다. #[img_2_1]# 두 점 $\rm A$, $\rm P$ 사이의 거리는 
+\[ #(wH1113|좌표평면 위의 두 점 사이의 거리::\overline{\rm AP}=\sqrt{(-5)^2+5^2})#=5\sqrt 2\]
+이므로 삼각형 $\rm PAB$의 넓이는 
+\[\dfrac{1}{2}\times\dfrac{25\sqrt 2}{4}\times 5\sqrt 2=\dfrac{125}{4}\]
+이다. 따라서 $p=4$, $q=125$이므로 구하는 값은 
+\[p+q=4+125=129\]
+이다.
+
+#[wH1085|이원일이차 연립방정식의 풀이::]#
