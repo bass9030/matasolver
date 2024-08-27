@@ -5,7 +5,15 @@
     "version": "1.0",
     "permissions": [
         "activeTab",
-        "cookies"
+        "cookies",
+        "scripting"
+    ],
+    "content_scripts": [
+        {
+            "matches": ["*://ai.matamath.net/*/student/lesson/exam/*"],
+            "js": ["inject.js", "MataMath.js"],
+            "world": "MAIN"
+        }
     ],
     "host_permissions": [
         "*://ai.matamath.net/*"
