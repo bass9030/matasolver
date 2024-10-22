@@ -33,10 +33,10 @@ async function checkLoad() {
             );
             // console.log(solutionInfo);
             let questionDiv = document.querySelector(
-                "section > div:nth-child(2) > div > div > div > div > div.swiper-no-swiping > div > div"
+                "section > div:nth-child(2) > div > div > div > div > div.swiper-no-swiping"
             );
             let detailsEl = document.querySelector(
-                "section > div:nth-child(2) > div > div > div > div > div.swiper-no-swiping > div > div > details"
+                "section > div:nth-child(2) > div > div > div > div > div.swiper-no-swiping > details"
             );
 
             if (!!detailsEl) detailsEl.remove();
@@ -51,7 +51,7 @@ async function checkLoad() {
 
             details.appendChild(summary);
             details.appendChild(p);
-            details.style.marginTop = "5em";
+            details.style.margin = "0 20px";
             questionDiv.appendChild(details);
             window.MathJax.Hub.Typeset(p);
         });
