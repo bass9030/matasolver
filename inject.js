@@ -25,6 +25,7 @@ async function checkLoad() {
     buttons.forEach((button) => {
         button.addEventListener("click", async (event) => {
             if (!!!ExamInfo) return;
+            // console.log(event.target.children[0].innerText);
             let questionNum = parseInt(event.target.children[0].innerText);
             let questionId = ExamQuestions[questionNum - 1].evalQuestionId;
             // console.log(questionId)
@@ -32,11 +33,10 @@ async function checkLoad() {
                 await getSolution(questionId)
             );
             // console.log(solutionInfo);
-            let questionDiv = document.querySelector(
-                "section > div:nth-child(2) > div > div > div > div > div.swiper-no-swiping"
-            );
+            //#exam-wrapper > div
+            let questionDiv = document.querySelector("#exam-wrapper > div");
             let detailsEl = document.querySelector(
-                "section > div:nth-child(2) > div > div > div > div > div.swiper-no-swiping > details"
+                "#exam-wrapper > div > details"
             );
 
             if (!!detailsEl) detailsEl.remove();
