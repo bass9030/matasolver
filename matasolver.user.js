@@ -152,7 +152,7 @@
             "deptId",
         ];
         let isExamUrl = true;
-        for (let i in keyword) {
+        for (let i of keyword) {
             if (!url.includes(i)) {
                 isExamUrl = false;
                 break;
