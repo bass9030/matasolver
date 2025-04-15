@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         matasolver
 // @namespace    http://tampermonkey.net/
-// @version      2025-03-21
+// @version      2025-04-15
 // @description  try to take over the world!
 // @author       You
-// @match        *://ai.matamath.net/*/student/lesson/exam/*
+// @match        *://ts.matamath.net/*/student/lesson/exam/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=github.com
 // @grant        none
 // ==/UserScript==
@@ -60,7 +60,7 @@
                     solutionInfo.questionInfo.questionResourceList[imgIdx];
                 expText = expText.replace(
                     match,
-                    `<img src="https://ai.matamath.net/${imgInfo.imgLink}" style="width: ${imgInfo.imgWidth}; padding: ${imgInfo.imgPadding};"/>`
+                    `<img src="https://ts.matamath.net/${imgInfo.imgLink}" style="width: ${imgInfo.imgWidth}; padding: ${imgInfo.imgPadding};"/>`
                 );
             }
         }
@@ -78,7 +78,7 @@
                     solutionInfo.questionInfo.questionResourceList[imgIdx];
                 title = title.replace(
                     match,
-                    `<img src="https://ai.matamath.net/${imgInfo.imgLink}" style="width: ${imgInfo.imgWidth}; padding: ${imgInfo.imgPadding};"/>`
+                    `<img src="https://ts.matamath.net/${imgInfo.imgLink}" style="width: ${imgInfo.imgWidth}; padding: ${imgInfo.imgPadding};"/>`
                 );
             }
         }
@@ -94,7 +94,7 @@
     async function getExamQuestions(ExamInfo) {
         let res = await (
             await fetch(
-                `https://ai.matamath.net/api/v5/lesson/student/eval?lessonId=${ExamInfo.lessonId}&lessonItemId=${ExamInfo.lessonItemId}&curriculumItemId=${ExamInfo.curriculumItemId}&treatNo=${ExamInfo.treatNo}&deptId=${ExamInfo.deptId}`,
+                `https://ts.matamath.net/api/v5/lesson/student/eval?lessonId=${ExamInfo.lessonId}&lessonItemId=${ExamInfo.lessonItemId}&curriculumItemId=${ExamInfo.curriculumItemId}&treatNo=${ExamInfo.treatNo}&deptId=${ExamInfo.deptId}`,
                 {
                     method: "GET",
                     headers: {
@@ -120,7 +120,7 @@
     async function getSolution(questionId) {
         let res = await (
             await fetch(
-                `https://ai.matamath.net/api/v5/lesson/student/eval-question?evalQuestionId=${questionId}`,
+                `https://ts.matamath.net/api/v5/lesson/student/eval-question?evalQuestionId=${questionId}`,
                 {
                     method: "GET",
                     headers: {
@@ -171,7 +171,7 @@
         };
     }
 
-    console.log("I'm Injected!");
+    console.log("[matasolver] script inject success");
 
     window.addEventListener("load", () => {
         console.log("page loaded");
@@ -183,7 +183,7 @@
 
     async function checkLoad() {
         let buttons = document.querySelectorAll(
-            "section > div:nth-child(1) > div > button"
+            "section > div:nth-child(1) > div.inner > button"
         );
         if (!!!buttons.length) {
             setTimeout(checkLoad, 1000);
@@ -230,6 +230,4 @@
             });
         });
     }
-
-    function addMoreBtn() {}
 })();

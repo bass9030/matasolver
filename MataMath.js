@@ -52,7 +52,7 @@ function parseSolutionInfo(solutionInfo) {
                 solutionInfo.questionInfo.questionResourceList[imgIdx];
             expText = expText.replace(
                 match,
-                `<img src="https://ai.matamath.net/${imgInfo.imgLink}" style="width: ${imgInfo.imgWidth}; padding: ${imgInfo.imgPadding};"/>`
+                `<img src="https://ts.matamath.net/${imgInfo.imgLink}" style="width: ${imgInfo.imgWidth}; padding: ${imgInfo.imgPadding};"/>`
             );
         }
     }
@@ -72,7 +72,7 @@ function parseSolutionInfo(solutionInfo) {
                 solutionInfo.questionInfo.questionResourceList[imgIdx];
             title = title.replace(
                 match,
-                `<img src="https://ai.matamath.net/${imgInfo.imgLink}" style="width: ${imgInfo.imgWidth}; padding: ${imgInfo.imgPadding};"/>`
+                `<img src="https://ts.matamath.net/${imgInfo.imgLink}" style="width: ${imgInfo.imgWidth}; padding: ${imgInfo.imgPadding};"/>`
             );
         }
     }
@@ -88,7 +88,7 @@ function parseSolutionInfo(solutionInfo) {
 async function getExamQuestions(ExamInfo) {
     let res = await (
         await fetch(
-            `https://ai.matamath.net/api/v5/lesson/student/eval?lessonId=${ExamInfo.lessonId}&lessonItemId=${ExamInfo.lessonItemId}&curriculumItemId=${ExamInfo.curriculumItemId}&treatNo=${ExamInfo.treatNo}&deptId=${ExamInfo.deptId}`,
+            `https://ts.matamath.net/api/v5/lesson/student/eval?lessonId=${ExamInfo.lessonId}&lessonItemId=${ExamInfo.lessonItemId}&curriculumItemId=${ExamInfo.curriculumItemId}&treatNo=${ExamInfo.treatNo}&deptId=${ExamInfo.deptId}`,
             {
                 method: "GET",
                 headers: {
@@ -114,7 +114,7 @@ async function getExamQuestions(ExamInfo) {
 async function getSolution(questionId) {
     let res = await (
         await fetch(
-            `https://ai.matamath.net/api/v5/lesson/student/eval-question?evalQuestionId=${questionId}`,
+            `https://ts.matamath.net/api/v5/lesson/student/eval-question?evalQuestionId=${questionId}`,
             {
                 method: "GET",
                 headers: {
