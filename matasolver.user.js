@@ -182,9 +182,7 @@
     let ExamQuestions;
 
     async function checkLoad() {
-        let buttons = document.querySelectorAll(
-            "section > div:nth-child(1) > div.inner > button"
-        );
+        let buttons = document.querySelectorAll("div.inner > button");
         if (!!!buttons.length) {
             setTimeout(checkLoad, 1000);
             return;
@@ -207,9 +205,11 @@
                 );
                 // console.log(solutionInfo);
                 //#exam-wrapper > div
-                let questionDiv = document.querySelector("#exam-wrapper > div");
+                let questionDiv = document.querySelector(
+                    "div.question-content-wrapper"
+                );
                 let detailsEl = document.querySelector(
-                    "#exam-wrapper > div > details"
+                    "div.question-content-wrapper > details"
                 );
 
                 if (!!detailsEl) detailsEl.remove();
