@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         matasolver
 // @namespace    http://tampermonkey.net/
-// @version      2025-04-15
-// @description  try to take over the world!
+// @version      2025-04-27
+// @description  Displays the problem solving process
 // @author       You
 // @match        *://mhs.matamath.net/*/student/lesson/exam/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=github.com
 // @grant        none
+// @run-at       document-end
 // ==/UserScript==
 
 (function () {
@@ -173,61 +174,136 @@
 
     console.log("[matasolver] script inject success");
 
-    window.addEventListener("load", () => {
-        console.log("page loaded");
-        checkLoad();
-    });
+    const { pushState, replaceState } = window.history;
+
+    window.history.pushState = function (...args) {
+        pushState.apply(window.history, args);
+        window.dispatchEvent(new Event("pushState"));
+    };
+
+    window.history.replaceState = function (...args) {
+        replaceState.apply(window.history, args);
+        window.dispatchEvent(new Event("replaceState"));
+    };
+
+    window.addEventListener("popstate", () => pageUpdated());
+    window.addEventListener("replaceState", () => pageUpdated());
+    window.addEventListener("pushState", () => pageUpdated());
+
+    let attamp = 0;
+
+    function pageUpdated() {
+        console.log("[matasolver] page change detect");
+        attamp = 0;
+        clearTimeout(timeoutQueue);
+        loadSolve();
+    }
 
     let ExamInfo;
     let ExamQuestions;
+    let timeoutQueue;
 
-    async function checkLoad() {
-        let buttons = document.querySelectorAll(
-            "section > div:nth-child(1) > div.inner > button"
+    async function loadSolve() {
+        // url match check
+        if (
+            !!!location.href.match(
+                /(https|http):\/\/ts\.matamath\.net\/.+\/student\/lesson\/exam\/question/g
+            )
+        ) {
+            return;
+        }
+        console.log("[matasolver] try to find solve");
+
+        // page load check
+        let questionArea = document.querySelector(
+            "div.question-content > div > div:nth-child(1)"
         );
-        if (!!!buttons.length) {
-            setTimeout(checkLoad, 1000);
+        if (!!!questionArea) {
+            if (attamp > 5) {
+                console.log("[matasolver] failed to find question area");
+                return;
+            }
+            attamp++;
+            clearTimeout(timeoutQueue);
+            timeoutQueue = setTimeout(loadSolve, 500);
             return;
         }
 
-        // Load Exam Info
-        ExamInfo = await getExamInfo(window.location.href);
-        ExamQuestions = await getExamQuestions(ExamInfo);
-        console.log(ExamQuestions);
+        try {
+            // Load Exam Info
+            ExamInfo = getExamInfo(window.location.href);
+            ExamQuestions = await getExamQuestions(ExamInfo);
 
-        buttons.forEach((button) => {
-            button.addEventListener("click", async (event) => {
-                if (!!!ExamInfo) return;
-                // console.log(event.target.children[0].innerText);
-                let questionNum = parseInt(event.target.children[0].innerText);
-                let questionId = ExamQuestions[questionNum - 1].evalQuestionId;
-                // console.log(questionId)
-                let solutionInfo = await parseSolutionInfo(
-                    await getSolution(questionId)
+            if (!!!ExamInfo) {
+                console.log(
+                    "[matasolver] 올바르지 않은 URL 형식:",
+                    window.location.href
                 );
-                // console.log(solutionInfo);
-                //#exam-wrapper > div
-                let questionDiv = document.querySelector("#exam-wrapper > div");
-                let detailsEl = document.querySelector(
-                    "#exam-wrapper > div > details"
+                return;
+            }
+
+            let headerElement = questionArea.querySelector(
+                "div > div:nth-child(1)"
+            );
+
+            // wait question load(2.5s)
+            console.log("[matasolver] wait to load question area");
+            let headerWaitCount = 0;
+            while (!!!headerElement && headerWaitCount < 5) {
+                await new Promise((resolve, reject) =>
+                    setTimeout(() => resolve(), 500)
                 );
+                headerWaitCount++;
+                headerElement = questionArea.querySelector(
+                    "div > div:nth-child(1)"
+                );
+            }
 
-                if (!!detailsEl) detailsEl.remove();
+            if (headerWaitCount >= 5) {
+                console.log(
+                    "[matasolver] question area not loaded for critical time"
+                );
+                return;
+            }
 
-                let details = document.createElement("details");
-                let summary = document.createElement("summary");
-                summary.textContent = "해설 보기";
+            let questionNum = parseInt(headerElement.innerText);
+            let questionId = ExamQuestions[questionNum - 1].evalQuestionId;
 
-                let p = document.createElement("span");
-                p.className = "solution-text";
-                p.innerHTML = solutionInfo.expText;
+            console.log(
+                "[matasolver] question change detect:",
+                questionNum,
+                questionId
+            );
 
-                details.appendChild(summary);
-                details.appendChild(p);
-                details.style.margin = "0 20px";
-                questionDiv.appendChild(details);
-                window.MathJax.Hub.Typeset(p);
-            });
-        });
+            let solutionInfo = await parseSolutionInfo(
+                await getSolution(questionId)
+            );
+
+            let questionDiv = document.querySelector(
+                "div.question-content-wrapper"
+            );
+            let detailsEl = document.querySelector(
+                "div.question-content-wrapper > details"
+            );
+
+            if (!!detailsEl) detailsEl.remove();
+
+            let details = document.createElement("details");
+            let summary = document.createElement("summary");
+            summary.textContent = "해설 보기";
+
+            let p = document.createElement("span");
+            p.className = "solution-text";
+            p.innerHTML = solutionInfo.expText;
+
+            details.appendChild(summary);
+            details.appendChild(p);
+            // details.style.margin = "0 20px";
+            questionDiv.appendChild(details);
+            window.MathJax.Hub.Typeset(p);
+        } catch (e) {
+            console.error(e);
+            alert("풀이 불러오기에 실패했습니다.\n\nStackTrace:\n" + e);
+        }
     }
 })();
