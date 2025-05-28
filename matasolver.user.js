@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         matasolver
 // @namespace    http://tampermonkey.net/
-// @version      2025-05-28
+// @version      2025-05-28_1
 // @description  Displays the problem solving process
 // @author       You
 // @match        *://mhs.matamath.net/*/student/lesson/exam/*
@@ -207,7 +207,7 @@
         // url match check
         if (
             !!!location.href.match(
-                /(https|http):\/\/ts\.matamath\.net\/.+\/student\/lesson\/exam\/question/g
+                /(https|http):\/\/mhs\.matamath\.net\/.+\/student\/lesson\/exam\/question/g
             )
         ) {
             return;
