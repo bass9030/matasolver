@@ -4,7 +4,7 @@
 // @version      2025-04-15
 // @description  try to take over the world!
 // @author       You
-// @match        *://ts.matamath.net/*/student/lesson/exam/*
+// @match        *://mhs.matamath.net/*/student/lesson/exam/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=github.com
 // @grant        none
 // ==/UserScript==
@@ -60,7 +60,7 @@
                     solutionInfo.questionInfo.questionResourceList[imgIdx];
                 expText = expText.replace(
                     match,
-                    `<img src="https://ts.matamath.net/${imgInfo.imgLink}" style="width: ${imgInfo.imgWidth}; padding: ${imgInfo.imgPadding};"/>`
+                    `<img src="https://mhs.matamath.net/${imgInfo.imgLink}" style="width: ${imgInfo.imgWidth}; padding: ${imgInfo.imgPadding};"/>`
                 );
             }
         }
@@ -78,7 +78,7 @@
                     solutionInfo.questionInfo.questionResourceList[imgIdx];
                 title = title.replace(
                     match,
-                    `<img src="https://ts.matamath.net/${imgInfo.imgLink}" style="width: ${imgInfo.imgWidth}; padding: ${imgInfo.imgPadding};"/>`
+                    `<img src="https://mhs.matamath.net/${imgInfo.imgLink}" style="width: ${imgInfo.imgWidth}; padding: ${imgInfo.imgPadding};"/>`
                 );
             }
         }
@@ -94,7 +94,7 @@
     async function getExamQuestions(ExamInfo) {
         let res = await (
             await fetch(
-                `https://ts.matamath.net/api/v5/lesson/student/eval?lessonId=${ExamInfo.lessonId}&lessonItemId=${ExamInfo.lessonItemId}&curriculumItemId=${ExamInfo.curriculumItemId}&treatNo=${ExamInfo.treatNo}&deptId=${ExamInfo.deptId}`,
+                `https://mhs.matamath.net/api/v5/lesson/student/eval?lessonId=${ExamInfo.lessonId}&lessonItemId=${ExamInfo.lessonItemId}&curriculumItemId=${ExamInfo.curriculumItemId}&treatNo=${ExamInfo.treatNo}&deptId=${ExamInfo.deptId}`,
                 {
                     method: "GET",
                     headers: {
@@ -120,7 +120,7 @@
     async function getSolution(questionId) {
         let res = await (
             await fetch(
-                `https://ts.matamath.net/api/v5/lesson/student/eval-question?evalQuestionId=${questionId}`,
+                `https://mhs.matamath.net/api/v5/lesson/student/eval-question?evalQuestionId=${questionId}`,
                 {
                     method: "GET",
                     headers: {
