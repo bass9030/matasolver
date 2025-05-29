@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         matasolver
 // @namespace    http://tampermonkey.net/
-// @version      2025-05-28_1
+// @version      2025-05-29
 // @description  Displays the problem solving process
 // @author       You
-// @match        *://mhs.matamath.net/*/student/lesson/exam/*
-// @icon         https://www.google.com/s2/favicons?sz=64&domain=github.com
+// @match        *://*.matamath.net/*/*
+// @icon         https://mhs.matamath.net/common-images/common/favicon_mataedu.png
 // @grant        none
 // @run-at       document-end
 // ==/UserScript==
@@ -61,7 +61,7 @@
                     solutionInfo.questionInfo.questionResourceList[imgIdx];
                 expText = expText.replace(
                     match,
-                    `<img src="https://mhs.matamath.net/${imgInfo.imgLink}" style="width: ${imgInfo.imgWidth}; padding: ${imgInfo.imgPadding};"/>`
+                    `<img src="${imgInfo.imgLink}" style="width: ${imgInfo.imgWidth}; padding: ${imgInfo.imgPadding};"/>`
                 );
             }
         }
@@ -79,7 +79,7 @@
                     solutionInfo.questionInfo.questionResourceList[imgIdx];
                 title = title.replace(
                     match,
-                    `<img src="https://mhs.matamath.net/${imgInfo.imgLink}" style="width: ${imgInfo.imgWidth}; padding: ${imgInfo.imgPadding};"/>`
+                    `<img src="${imgInfo.imgLink}" style="width: ${imgInfo.imgWidth}; padding: ${imgInfo.imgPadding};"/>`
                 );
             }
         }
@@ -95,7 +95,7 @@
     async function getExamQuestions(ExamInfo) {
         let res = await (
             await fetch(
-                `https://mhs.matamath.net/api/v5/lesson/student/eval?lessonId=${ExamInfo.lessonId}&lessonItemId=${ExamInfo.lessonItemId}&curriculumItemId=${ExamInfo.curriculumItemId}&treatNo=${ExamInfo.treatNo}&deptId=${ExamInfo.deptId}`,
+                `/api/v5/lesson/student/eval?lessonId=${ExamInfo.lessonId}&lessonItemId=${ExamInfo.lessonItemId}&curriculumItemId=${ExamInfo.curriculumItemId}&treatNo=${ExamInfo.treatNo}&deptId=${ExamInfo.deptId}`,
                 {
                     method: "GET",
                     headers: {
@@ -121,7 +121,7 @@
     async function getSolution(questionId) {
         let res = await (
             await fetch(
-                `https://mhs.matamath.net/api/v5/lesson/student/eval-question?evalQuestionId=${questionId}`,
+                `/api/v5/lesson/student/eval-question?evalQuestionId=${questionId}`,
                 {
                     method: "GET",
                     headers: {
@@ -207,7 +207,7 @@
         // url match check
         if (
             !!!location.href.match(
-                /(https|http):\/\/mhs\.matamath\.net\/.+\/student\/lesson\/exam\/question/g
+                /(https|http):\/\/.+\.matamath\.net\/.+\/student\/lesson\/exam\/question/g
             )
         ) {
             return;
