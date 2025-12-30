@@ -1,7 +1,9 @@
 # matasolver
 > [!CAUTION]
 > 개발자의 고등학교 졸업으로 인해 더이상 마타수학의 접근할 수 없게 되었습니다.<br>
-> 이에 불가피하게 프로젝트 개발을 중단합니다. 지금까지 `matasolver`를 이용해주셔서 감사했습니다.
+> 이에 불가피하게 프로젝트 개발을 중단합니다. 지금까지 `matasolver`를 이용해주셔서 감사합니다.
+> 
+![image](https://github.com/bass9030/matasolver/blob/master/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202025-12-30%20221304.png?raw=true)
 
 풀이도 모르는데 어떻게 풀어요?<br>
 응 서버에서 풀이 뜯어오면 그만이야
